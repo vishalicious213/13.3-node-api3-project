@@ -16,18 +16,10 @@ function logger(req, res, next) {
   next();
 }
 
-function validateUserId(req, res, next) {
-  userDb.getById(req.params.id)
-    .then(user => {
-      if(!user) {
-        res.status(400).json({ message: 'Invalid user ID' });
-      } else {
-        req.user = user;
-        next();
-      }
-    });
-}
+server.use(logger);
 
-app.use(logger);
+server.listen(5000, () => 
+  console.log('Server running on http://localhost:5000')
+)
 
 module.exports = server;

@@ -33,7 +33,15 @@ router.put('/:id', (req, res) => {
 //custom middleware
 
 function validateUserId(req, res, next) {
-  // do your magic!
+  userDb.getById(req.params.id)
+    .then(user => {
+      if(!user) {
+        res.status(400).json({ message: 'Invalid user ID' });
+      } else {
+        req.user = user;
+        next();
+      }
+    });
 }
 
 function validateUser(req, res, next) {
