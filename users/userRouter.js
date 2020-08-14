@@ -11,14 +11,24 @@ router.post('/:id/posts', (req, res) => {
   // do your magic!
 });
 
+// GET USERS
 router.get('/', (req, res) => {
   userDb.get(req.body).then(users => {
     res.status(200).json(users);
   })
 });
 
-router.get('/:id', (req, res) => {
-  // do your magic!
+// GET USER BY ID
+router.get('/:id', validateUserId, (req, res) => {
+  userDb
+    .getById(Number(req.params.id))
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(err => {
+      console.log('Error getting user: ', err)
+      res.status(500).json({ message: 'Could not retrieve user'})
+    })
 });
 
 router.get('/:id/posts', (req, res) => {
